@@ -44,7 +44,7 @@ void disableraw() {
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
 }
 
-/* Screen manupilation */
+/* Screen manipulation */
 void refreshscrn() {
 	write(STDOUT_FILENO, "\x1b[2J", 4);
 	write(STDOUT_FILENO, "\x1b[H", 3);
