@@ -1,5 +1,6 @@
 #include "../include.h"
 #include "headers/screendraw.h"
+#include "../iomanip/headers/ibuf.h"
 
 void enableraw() {
 	tcgetattr(STDIN_FILENO, &orig_termios);
@@ -15,10 +16,10 @@ void disableraw() {
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
 }
 
-void refreshscrn() {
-	write(STDOUT_FILENO, "\x1b[2J", 4);
-	write(STDOUT_FILENO, "\x1b[H", 3);
-	tildes();
+void refreshscrn(abuffer *abuf) {
+	abuf_append(abuf, "\x1b[2J", 4);
+	abuf_append(abuf, "x1b[H", 3);
+	tildes(abuf);
 }
 
 void cursor_up() {

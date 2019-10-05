@@ -1,10 +1,13 @@
-CC=gcc -O2 -o $@ 
-OCC=gcc -O2 -c -o $@
+CC=gcc -O2 -g -o $@ 
+OCC=gcc -O2 -g -c -o $@
 
-all : screenop/objects/screenmanip.o screenop/objects/screendraw.o screenop/objects/screeninfo.o iomanip/objects/iomanip.o kilo_hmod.o
+.PHONY : screened
+
+screened : screenop/objects/screenmanip.o screenop/objects/screendraw.o screenop/objects/screeninfo.o iomanip/objects/iomanip.o iomanip/objects/ibuf.o screened.o
 	$(CC) $^ 
+	echo Done!
 
-kilo_hmod.o : kilo_hmod.c
+screened.o : screened.c
 	$(OCC) $<
 
 screenop/objects/screenmanip.o : screenop/screenmanip.c screenop/objects/screendraw.o screenop/objects/screeninfo.o

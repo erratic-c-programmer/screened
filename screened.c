@@ -12,6 +12,7 @@ int prockeypress();
 void init_editor();
 void die(const char *s); /* For debugging purposes */
 
+
 int main(void) {
 	init_editor();
 	return 0;
@@ -22,11 +23,11 @@ int main(void) {
  *  program-specific/debugging functions *
  *_______________________________________*/
 
-void insert_mode() {
+inline void insert_mode() {
 	printf("Entered insert!\r\n");
 }
 
-int prockeypress() {
+int prockeypress(abuffer *abuf) {
 	char c = getkeypress();
 	switch (c) {
 		case CTRL_KEY('c'):
@@ -38,13 +39,14 @@ int prockeypress() {
 			break;
 
 		case 'c':
-			refreshscrn();
+			refreshscrn(abuf);
 			break;
 	}
 	return 0;
 }
 
 void init_editor() {
+	abuffer *globl_abuf = malloc(sizeof(abuffer));
 	enableraw();
 	/* Call disableraw() at exit to reset terminal to canonical mode */
 	atexit(disableraw);
@@ -52,7 +54,7 @@ void init_editor() {
 	struct winsize ws;
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
 	/* Finally, start keypress proccessor */
-	while (!prockeypress());
+	while (!prockeypress(globl_abuf));
 }
 
 void die(const char *s) {

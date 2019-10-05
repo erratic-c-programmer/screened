@@ -1,8 +1,11 @@
 #include "../include.h"
-void abuf_append(char *abuf, const char *s) {
-	*abuf = realloc(abuf, sizeof(*abuf) / sizeof(*s));
+#include "headers/ibuf.h"
+void abuf_append(abuffer *abuf, const char *s, int len) {
+	char *new = realloc(abuf->buf, abuf->len + len);
+	abuf->buf = new;
+	abuf->len += len;
 }
 
-void abuf_free(char *abuf) {
-	free(abuf);
+void abuf_free(abuffer *abuf) {
+	free(abuf->buf);
 }

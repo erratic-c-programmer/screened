@@ -1,10 +1,10 @@
 #include "../include.h"
+#include "../iomanip/headers/ibuf.h"
 #include "headers/screeninfo.h"
-void tildes() {
+void tildes(abuffer *abuf) {
 	for (int i = 0; i < getwinsz().ws_row; ++i) {
-		write(STDOUT_FILENO, "~", 1);
+		abuf_append(abuf, "~", 1);
 		if (i < getwinsz().ws_row - 1)
-			write(STDOUT_FILENO, "\r\n", 2);
+			abuf_append(abuf, "\r\n", 2);
 	}
 }
-
