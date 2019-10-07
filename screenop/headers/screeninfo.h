@@ -1,2 +1,5 @@
+#ifndef INCLUDE_INCLUDE
 #include "../../include.h"
-struct winsize getwinsz();
+#endif
+#define INCLUDE_SCREENINFO
+struct winsize getwinsz(void);

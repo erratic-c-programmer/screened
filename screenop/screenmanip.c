@@ -1,8 +1,7 @@
-#include "../include.h"
-#include "headers/screendraw.h"
-#include "../iomanip/headers/ibuf.h"
+#include "headers/screenmanip.h"
 
-void enableraw() {
+void enableraw(void)
+{
 	tcgetattr(STDIN_FILENO, &orig_termios);
 	struct termios raw = orig_termios;
 	raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
@@ -12,15 +11,18 @@ void enableraw() {
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
 
-void disableraw() {
+void disableraw(void)
+{
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
 }
 
-void refreshscrn(abuffer *abuf) {
+void refreshscrn(abuffer *abuf)
+{
 	abuf_append(abuf, "\x1b[2J", 4);
 	abuf_append(abuf, "x1b[H", 3);
 	tildes(abuf);
 }
 
-void cursor_up() {
+void cursor_up(void)
+{
 }
