@@ -1,0 +1,47 @@
+FOR DEVELOPERS:
+all header files in **/headers/ should include all neccesary things,
+you should NOT include them. In all .c files(except screened.c), 
+ONLY INCLUDE THE HEADER. This also applies when creating new C 
+files. All standard libraries should be included in include.h,
+not from the header files or source files; example:
+
+Double-inclusion also messes everything up real bad; so please,
+in sample.h, have a #define INCLUDE_SAMPLE line, and in sample.c
+have
+------------------------------
+#ifndef INCLUDE_SAMPLE
+#include "headers/sample.h"
+#endif
+-----------------------------
+to prevent double-inclusion.
+
+------newfeatures/testfeature.c------
+#ifndef INCLUDE_TESTFEATURE
+#include "headers/testfeature.h"
+#endif
+
+int testfeature()
+{
+...
+...
+}
+
+-------------------------------------
+^This file should not contain any other #include lines!
+
+------newfeatures/headers/testfeature.h------
+#include "...whatever header files needed by newfeatures/testfeature.c"
+#include "../../include.h"
+#define INCLUDE_TESTFEATURE
+int testfeature();
+---------------------------------------------
+
+Also, please follow the laws of UNIX programming and K&R style.
+Thanks for helping out!
+=====================================================================
+
+FOR USERS:
+if you are seeing this, you are not a user. If you are, good luck
+getting it working... it's not working yet. Either wait patiently
+or make it into a useable text editor(and if you manage that, again,
+you're no user; please refer to the 'FOR DEVELOPERS' section)
