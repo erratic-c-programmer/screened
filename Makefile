@@ -1,11 +1,11 @@
-CC=gcc -O2 -g -o $@ 
-LD=gcc -O2 -g -o $@ 
+CC=gcc -O2 -g -o $@
+LD=gcc -O2 -g -o $@
 OCC=gcc -O2 -g -c -o $@
-AR=ar rc $@
+AR=ar rcs $@
 
 .PHONY : screened
 
-screened : screened.c lib/screenop.a lib/iomanip.a
+screened : screened.o lib/screenop.a lib/iomanip.a
 	$(LD) $^ 
 	echo Done!
 

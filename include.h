@@ -1,4 +1,5 @@
-#define INCLUDE
+#define INCLUDE_INCLUDE
+#include <stdbool.h>
 #include <ctype.h>
 #include <errno.h>
 #include <string.h>
