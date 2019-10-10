@@ -47,8 +47,6 @@ int testfeature();
 ```
 
 ### Function preferences
-- All output should be done with the append buffer. Only in some special cases
-where the append buffer will not work should anything below be used. 
 - For all but tests, use `read(int fd, void *buf, size_t count)` and
 `write(int fd, const void *buf, size_t count)` for all I/O operations, instead
 of `printf()`, `scanf()`, `puts()` or `gets()`. But for tests, `puts()`
