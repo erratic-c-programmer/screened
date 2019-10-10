@@ -1,5 +1,5 @@
 #include "include.h"
-#include "iomanip/headers/ibuf.h"
+#include "dynstr/headers/strop.h"
 #include "iomanip/headers/iomanip.h"
 #include "screenop/headers/screenmanip.h"
 
@@ -11,12 +11,9 @@ typedef struct {
 	bool output;
 } editor_status;
 
- /**/
-void insert_mode(abuffer *abuf);
-int prockeypress(abuffer *abuf, editor_status estat);
+void insert_mode(char *abuf);
+int prockeypress(char *abuf, editor_status estat);
 void init_editor(void);
-void die(const char *s);	/* For debugging purposes */
-
 
 int main(void)
 {
@@ -27,20 +24,20 @@ int main(void)
 
 /* program-specific functions */
 
-inline void insert_mode(abuffer *abuf)
+void insert_mode(char *abuf)
 {
-	abuf_append(abuf, "Entered insert!\r\n", 17);
+	str_append(abuf, "Entered insert!\r\n");
 }
 
-int prockeypress(abuffer *abuf , editor_status estat)
+int prockeypress(char *abuf , editor_status estat)
 {
+	write(STDOUT_FILENO, "\x1b[H", 3); /* Reposition cursor to top */
 	char c = getkeypress();
 	switch (c) {
 		case CTRL_KEY('c'):
 			estat.output = false;
 			return(1);
 			break;
-
 		case 'i':
 			insert_mode(abuf);
 			estat.output = true;
@@ -52,34 +49,32 @@ int prockeypress(abuffer *abuf , editor_status estat)
 			break;
 
 		default:
-			;
+			estat.output = false;
+			break;
 	}
 	/* write append buffer and flush it if editor_status.output flag is set */
+	/* After each case, you must set estat.output to true or false! */
 	if (estat.output) {
-		write(STDOUT_FILENO, abuf->buf, abuf->len);
-		abuf_flush(abuf);
+		write(STDOUT_FILENO, "\x1b[?25h", 6); /* Make cursor invisible */
+		write(STDOUT_FILENO, abuf, strlen(abuf));
+		write(STDOUT_FILENO, "\x1b[?25h", 6); /* Make cursor visible again */
+		str_trunc(abuf, 0);
 	}
-
 	return 0;
 }
 
 void init_editor(void)
 {
 	editor_status globl_status;
-	abuffer *globl_abuf = malloc(sizeof(abuffer));
+	char *globl_abuf = str_create();
 	enableraw();
 	/* Call disableraw() at exit to reset terminal to canonical mode */
 	atexit(disableraw);
-	/* Get screen size */
-	struct winsize ws;
-	ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
+	/* Clear screen at start */
+	refreshscrn(globl_abuf);
+	write(STDOUT_FILENO, globl_abuf, strlen(globl_abuf));
+	str_trunc(globl_abuf, 0);
 	/* Finally, start keypress proccessor */
 	while(!prockeypress(globl_abuf, globl_status));
-	abuf_free(globl_abuf);
-}
-
-void die(const char *s)
-{
-	perror(s);
-	exit(1);
+	str_del(globl_abuf);
 }

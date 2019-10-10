@@ -1,9 +1,16 @@
 #include "headers/screendraw.h"
-void tildes(abuffer *abuf)
+void refreshscrn(char *abuf)
+{
+	str_append(abuf, "\x1b[2J");
+	str_append(abuf, "\x1b[H");
+	tildes(abuf);
+}
+
+void tildes(char *abuf)
 {
 	for (int i = 0; i < getwinsz().ws_row; ++i) {
-		abuf_append(abuf, "~", 1);
+		str_append(abuf, "~");
 		if (i < getwinsz().ws_row - 1)
-			abuf_append(abuf, "\r\n", 2);
+			str_append(abuf, "\r\n");
 	}
 }
