@@ -1,6 +1,6 @@
 CC=gcc -O2 -g -o $@
 LD=gcc -O2 -g -o $@
-OCC=gcc -O2 -g -c -o $@
+OCC=$(CC) -c
 AR=ar rcs $@
 
 .PHONY : screened

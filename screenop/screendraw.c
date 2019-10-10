@@ -1,24 +1,16 @@
 #include "headers/screendraw.h"
-<<<<<<< HEAD
-void refreshscrn(editor_status estat)
+void refreshscrn(char *abuf)
 {
-	str_append(estat.abuf, "\x1b[2J");
-	str_append(estat.abuf, "\x1b[H");
-	tildes(estat);
+	str_append(abuf, "\x1b[2J");
+	str_append(abuf, "\x1b[H");
+	tildes(abuf);
 }
 
-void tildes(editor_status estat)
-=======
 void tildes(char *abuf)
->>>>>>> parent of 4e63638... A number of bugfixes, mostly about the escape sequences.
 {
-	for (int i = 0; i < estat.winrows; ++i) {
-		str_append(estat.abuf, "~");
-		if (i < estat.wincols - 1)
-			str_append(estat.abuf, "\r\n");
+	for (int i = 0; i < getwinsz().ws_row; ++i) {
+		str_append(abuf, "~");
+		if (i < getwinsz().ws_row - 1)
+			str_append(abuf, "\r\n");
 	}
-}
-
-void pup(editor_status estat, const char *s)
-{
 }
