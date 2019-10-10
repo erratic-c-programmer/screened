@@ -11,3 +11,11 @@
 
 #define CTRL_KEY(k) ((k) & 0x1f)
 struct termios orig_termios;
+
+typedef struct {
+	bool output;
+	short unsigned int winrows;
+	short unsigned int wincols;
+	char *abuf;
+} editor_status;
+

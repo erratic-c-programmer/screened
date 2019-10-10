@@ -1,5 +1,5 @@
 CC=gcc -O2 -g -o $@
-LD=gcc -O2 -g -o $@
+LD=$(CC)
 OCC=$(CC) -c
 AR=ar rcs $@
 
@@ -42,3 +42,4 @@ dynstr/objects/strop.o : dynstr/strop.c
 clean : /dev/null
 	rm */objects/*
 	rm lib/*
+	rm screened.o

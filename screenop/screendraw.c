@@ -1,16 +1,16 @@
 #include "headers/screendraw.h"
-void refreshscrn(char *abuf)
+void refreshscrn(editor_status *estat)
 {
-	str_append(abuf, "\x1b[2J");
-	str_append(abuf, "\x1b[H");
-	tildes(abuf);
+	str_append(estat->abuf, "\x1b[2J");
+	str_append(estat->abuf, "\x1b[H");
+	tildes(estat);
 }
 
-void tildes(char *abuf)
+void tildes(editor_status *estat)
 {
-	for (int i = 0; i < getwinsz().ws_row; ++i) {
-		str_append(abuf, "~");
-		if (i < getwinsz().ws_row - 1)
-			str_append(abuf, "\r\n");
+	for (int i = 0; i < estat->winrows; ++i) {
+		str_append(estat->abuf, "~");
+		if (i < estat->winrows - 1)
+			str_append(estat->abuf, "\r\n");
 	}
 }

@@ -8,5 +8,5 @@
 #include "screeninfo.h"
 #endif
 #define INCLUDE_SCREENDRAW
-void refreshscrn(char *abuf);
-void tildes(char *abuf);
+void refreshscrn(editor_status *estat);
+void tildes(editor_status *estat);
