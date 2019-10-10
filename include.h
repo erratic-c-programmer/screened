@@ -9,6 +9,5 @@
 #include <termios.h>
 #include <unistd.h>
 
-#define _DEBUG(...) printf("%s:%s:%d: "__FILE__, __FUNCTION__, __LINE__, __VA_ARGS__)
 #define CTRL_KEY(k) ((k) & 0x1f)
 struct termios orig_termios;
