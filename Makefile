@@ -29,7 +29,7 @@ screenop/objects/screeninfo.o : screenop/screeninfo.c
 lib/iomanip.a : iomanip/objects/iomanip.o 
 	$(AR) $^
 
-iomanip/objects/iomanip.o : iomanip/iomanip.c
+iomanip/objects/input.o : iomanip/input.c
 	$(OCC) $<
 
 # Create dynamic string static library

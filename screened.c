@@ -1,6 +1,6 @@
 #include "include.h"
 #include "dynstr/headers/strop.h"
-#include "iomanip/headers/iomanip.h"
+#include "iomanip/headers/input.h"
 #include "screenop/headers/screenmanip.h"
 #include "screenop/headers/screendraw.h"
 #include "screenop/headers/screeninfo.h"
@@ -44,21 +44,25 @@ int prockeypress(editor_status *estat)
 			break;
 			
 		case 'h':
-			cursorpos(estat, estat->cursrow, --(estat->curscol));
+			--(estat->curscol);
+			cursorpos(estat);
 			estat->output = true;
 			break;
 
 		case 'j':
-			cursorpos(estat, ++(estat->cursrow), estat->curscol);
+			++(estat->cursrow);
+			cursorpos(estat);
 			estat->output = true;
 			break;
 		case 'k':
-			cursorpos(estat, --(estat->cursrow), estat->curscol);
+			--(estat->cursrow);
+			cursorpos(estat);
 			estat->output = true;
 			break;
 
 		case 'l':
-			cursorpos(estat, estat->cursrow, ++(estat->curscol));
+			++(estat->curscol);
+			cursorpos(estat);
 			estat->output = true;
 			break;
 
