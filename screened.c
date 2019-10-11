@@ -44,21 +44,21 @@ int prockeypress(editor_status *estat)
 			break;
 			
 		case 'h':
-			cursorpos(estat, estat->cursrow, estat->curscol - 1);
+			cursorpos(estat, estat->cursrow, --(estat->curscol));
 			estat->output = true;
 			break;
 
 		case 'j':
-			cursorpos(estat, estat->cursrow + 1, estat->curscol);
+			cursorpos(estat, ++(estat->cursrow), estat->curscol);
 			estat->output = true;
 			break;
 		case 'k':
-			cursorpos(estat, estat->cursrow - 1, estat->curscol);
+			cursorpos(estat, --(estat->cursrow), estat->curscol);
 			estat->output = true;
 			break;
 
 		case 'l':
-			cursorpos(estat, estat->cursrow, estat->curscol + 1);
+			cursorpos(estat, estat->cursrow, ++(estat->curscol));
 			estat->output = true;
 			break;
 
