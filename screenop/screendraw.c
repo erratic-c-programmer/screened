@@ -2,22 +2,31 @@
 void refreshscrn(editor_status *estat)
 {
 	str_append(estat->abuf, "\x1b[2J");
-	cursorpos(estat, 1, 1);
-	tildes(estat);
+	cursorpos(estat);
+	tildes(estat, 1);
 }
 
-void cursorpos(editor_status *estat, short unsigned int row, short unsigned int col)
+void cursorpos(editor_status *estat)
 {
 	char buf[32];
-	snprintf(buf, sizeof(buf), "\x1b[%d;%dH", row, col);
+
+	/* Check for overflow/underflow */
+	if (estat->cursrow > estat->winrows) 
+		estat->cursrow = estat->winrows;
+	if (estat->cursrow < 1)
+		estat->cursrow = 1;
+	if (estat->curscol > estat->wincols) 
+		estat->curscol = estat->wincols;
+	if (estat->curscol < 1)
+		estat->curscol = 1;
+
+	snprintf(buf, sizeof(buf), "\x1b[%d;%dH", estat->cursrow, estat->curscol);
 	str_append(estat->abuf, buf);
-	estat->cursrow = row;
-	estat->curscol = col;
 }
 	
-void tildes(editor_status *estat)
+void tildes(editor_status *estat, short unsigned int startrow)
 {
-	for (int i = 0; i < estat->winrows; ++i) {
+	for (int i = startrow - 1; i < estat->winrows; ++i) {
 		str_append(estat->abuf, "~");
 		if (i < estat->winrows - 1)
 			str_append(estat->abuf, "\r\n");
