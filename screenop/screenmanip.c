@@ -16,13 +16,6 @@ void disableraw(void)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
 }
 
-void refreshscrn(abuffer *abuf)
-{
-	abuf_append(abuf, "\x1b[2J", 4);
-	abuf_append(abuf, "x1b[H", 3);
-	tildes(abuf);
-}
-
 void cursor_up(void)
 {
 }
