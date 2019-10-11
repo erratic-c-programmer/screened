@@ -26,7 +26,7 @@ screenop/objects/screeninfo.o : screenop/screeninfo.c
 	$(OCC) $<
 
 # Create I/O manipulation static library
-lib/iomanip.a : iomanip/objects/iomanip.o 
+lib/iomanip.a : iomanip/objects/input.o
 	$(AR) $^
 
 iomanip/objects/input.o : iomanip/input.c
