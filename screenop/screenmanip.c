@@ -16,6 +16,20 @@ void disableraw(void)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
 }
 
-void cursor_up(void)
+void cursorpos(editor_status *estat)
 {
+	char buf[32];
+
+	/* Check for overflow/underflow */
+	if (estat->cursrow > estat->winrows) 
+		estat->cursrow = estat->winrows;
+	if (estat->cursrow < 1)
+		estat->cursrow = 1;
+	if (estat->curscol > estat->wincols) 
+		estat->curscol = estat->wincols;
+	if (estat->curscol < 1)
+		estat->curscol = 1;
+
+	snprintf(buf, sizeof(buf), "\x1b[%d;%dH", estat->cursrow, estat->curscol);
+	str_append(estat->abuf, buf);
 }

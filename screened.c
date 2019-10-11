@@ -45,24 +45,20 @@ int prockeypress(editor_status *estat)
 			
 		case 'h':
 			--(estat->curscol);
-			cursorpos(estat);
 			estat->output = true;
 			break;
 
 		case 'j':
 			++(estat->cursrow);
-			cursorpos(estat);
 			estat->output = true;
 			break;
 		case 'k':
 			--(estat->cursrow);
-			cursorpos(estat);
 			estat->output = true;
 			break;
 
 		case 'l':
 			++(estat->curscol);
-			cursorpos(estat);
 			estat->output = true;
 			break;
 
@@ -73,6 +69,7 @@ int prockeypress(editor_status *estat)
 	/* write append buffer and flush it if editor_status.output flag is set */
 	/* After each case, you must set estat.output to true or false! */
 	if (estat->output) {
+		cursorpos(estat);
 		write(STDOUT_FILENO, "\x1b[?25h", 6); /* Make cursor invisible */
 		write(STDOUT_FILENO, estat->abuf, strlen(estat->abuf));
 		write(STDOUT_FILENO, "\x1b[?25h", 6); /* Make cursor visible again */

@@ -7,7 +7,9 @@
 #ifndef INCLUDE_SCREENINFO
 #include "screeninfo.h"
 #endif
+#ifndef INCLUDE_SCREENMANIP
+#include "screenmanip.h"
+#endif
 #define INCLUDE_SCREENDRAW
 void refreshscrn(editor_status *estat);
-void cursorpos(editor_status *estat);
 void tildes(editor_status *estat, short unsigned int startrow);
