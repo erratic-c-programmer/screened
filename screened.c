@@ -27,7 +27,6 @@ void insert_mode(editor_status *estat)
 
 int prockeypress(editor_status *estat)
 {
-	write(STDOUT_FILENO, "\x1b[H", 3); /* Reposition cursor to top */
 	char c = getkeypress();
 	switch (c) {
 		case CTRL_KEY('c'):
@@ -41,6 +40,25 @@ int prockeypress(editor_status *estat)
 
 		case 'c':
 			refreshscrn(estat);
+			estat->output = true;
+			break;
+			
+		case 'h':
+			cursorpos(estat, estat->cursrow, estat->curscol - 1);
+			estat->output = true;
+			break;
+
+		case 'j':
+			cursorpos(estat, estat->cursrow + 1, estat->curscol);
+			estat->output = true;
+			break;
+		case 'k':
+			cursorpos(estat, estat->cursrow - 1, estat->curscol);
+			estat->output = true;
+			break;
+
+		case 'l':
+			cursorpos(estat, estat->cursrow, estat->curscol + 1);
 			estat->output = true;
 			break;
 
@@ -65,6 +83,8 @@ void init_editor(void)
 	globl_status->output = false;
 	globl_status->winrows = getwinsz().ws_row;
 	globl_status->wincols = getwinsz().ws_col;
+	globl_status->cursrow = 1;
+	globl_status->curscol = 1;
 	globl_status->abuf = str_create();
 
 	enableraw();

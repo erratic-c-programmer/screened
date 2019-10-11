@@ -9,4 +9,5 @@
 #endif
 #define INCLUDE_SCREENDRAW
 void refreshscrn(editor_status *estat);
+void cursorpos(editor_status *estat, short unsigned int row, short unsigned int col);
 void tildes(editor_status *estat);
