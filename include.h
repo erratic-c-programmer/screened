@@ -17,5 +17,6 @@ typedef struct {
 	short unsigned int winrows;
 	short unsigned int wincols;
 	char *abuf;
+	char mode; /* 1 for normal, 2 for insert */
 } editor_status;
 

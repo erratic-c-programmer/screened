@@ -7,7 +7,7 @@
 
 #define CTRL_KEY(k) ((k) & 0x1f)
 struct termios orig_termios; 
-void insert_mode(char *abuf);
+void insert_mode(editor_status *estat);
 int prockeypress(editor_status *estat);
 void init_editor(void);
 
@@ -20,9 +20,9 @@ int main(void)
 
 /* program-specific functions */
 
-void insert_mode(char *abuf)
+void insert_mode(editor_status *estat)
 {
-	str_append(abuf, "Entered insert!\r\n");
+	str_append(estat->abuf, "Entered insert!\r\n");
 }
 
 int prockeypress(editor_status *estat)
@@ -35,7 +35,7 @@ int prockeypress(editor_status *estat)
 			return(1);
 			break;
 		case 'i':
-			insert_mode(estat->abuf);
+			insert_mode(estat);
 			estat->output = true;
 			break;
 
@@ -61,7 +61,7 @@ int prockeypress(editor_status *estat)
 
 void init_editor(void)
 {
-	editor_status *globl_status;
+	editor_status *globl_status = malloc(sizeof(globl_status));
 	globl_status->output = false;
 	globl_status->winrows = getwinsz().ws_row;
 	globl_status->wincols = getwinsz().ws_col;
@@ -76,5 +76,6 @@ void init_editor(void)
 	while(!prockeypress(globl_status));
 	/* Exit: */
 	str_del(globl_status->abuf);
+	free(globl_status);
 	disableraw();
 }
