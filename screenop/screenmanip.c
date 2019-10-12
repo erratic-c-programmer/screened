@@ -20,7 +20,12 @@ void cursorpos(editor_status *estat, short unsigned int cursrow, short unsigned 
 {
 	char buf[32];
 
-	/* Check for overflow/underflow */
+	/* Check for overflow/underflow
+	This is not supposed to modify the estat 
+	 * struct except for the abuf, but for the 
+	 * really obviously wrong positions...
+	 */
+	
 	if ((cursrow > estat->winrows)) 
 		estat->cursrow = cursrow = estat->winrows;
 	if (cursrow < 1)

@@ -12,6 +12,7 @@
 #endif
 #define INCLUDE_SCREENDRAW
 void refreshscrn(editor_status *estat);
+void clearscrn(editor_status *estat);
 void tildes(editor_status *estat, short unsigned int startrow);
 void ptop(editor_status *estat, const char *s);
 void pmid(editor_status *estat, const char *s);
