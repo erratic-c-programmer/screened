@@ -22,7 +22,7 @@ int main(void)
 
 void insert_mode(editor_status *estat)
 {
-	str_append(estat->abuf, "Entered insert!\r\n");
+	pbot(estat, "--INSERT--");
 }
 
 int prockeypress(editor_status *estat)
@@ -69,7 +69,7 @@ int prockeypress(editor_status *estat)
 	/* write append buffer and flush it if editor_status.output flag is set */
 	/* After each case, you must set estat.output to true or false! */
 	if (estat->output) {
-		cursorpos(estat);
+		cursorpos(estat, estat->cursrow, estat->curscol);
 		write(STDOUT_FILENO, "\x1b[?25h", 6); /* Make cursor invisible */
 		write(STDOUT_FILENO, estat->abuf, strlen(estat->abuf));
 		write(STDOUT_FILENO, "\x1b[?25h", 6); /* Make cursor visible again */
@@ -91,6 +91,8 @@ void init_editor(void)
 	enableraw();
 	/* Clear screen at start */
 	refreshscrn(globl_status);
+	/* And move cursor to top */
+	cursorpos(globl_status, 1, 1);
 	write(STDOUT_FILENO, globl_status->abuf, strlen(globl_status->abuf));
 	str_trunc(globl_status->abuf, 0);
 	/* Finally, start keypress proccessor */

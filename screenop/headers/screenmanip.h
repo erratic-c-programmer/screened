@@ -7,4 +7,4 @@
 #define INCLUDE_SCREENINFO
 void enableraw(void);
 void disableraw(void);
-void cursorpos(editor_status *estat);
+void cursorpos(editor_status *estat, short unsigned int cursrow, short unsigned int curscol);
