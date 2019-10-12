@@ -19,6 +19,7 @@ typedef struct {
 	short unsigned int cursrow;
 	short unsigned int curscol;
 	char *abuf;
+	int fillrow; /* How may lines are there? */
 	char mode; /* 1 for normal, 2 for insert */
 } editor_status;
 

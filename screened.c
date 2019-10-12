@@ -38,11 +38,6 @@ int prockeypress(editor_status *estat)
 			estat->output = true;
 			break;
 
-		case 'c':
-			refreshscrn(estat);
-			estat->output = true;
-			break;
-			
 		case 'h':
 			--(estat->curscol);
 			estat->output = true;
@@ -68,6 +63,7 @@ int prockeypress(editor_status *estat)
 	}
 	/* write append buffer and flush it if editor_status.output flag is set */
 	/* After each case, you must set estat.output to true or false! */
+	
 	if (estat->output) {
 		cursorpos(estat, estat->cursrow, estat->curscol);
 		write(STDOUT_FILENO, "\x1b[?25h", 6); /* Make cursor invisible */
@@ -91,10 +87,13 @@ void init_editor(void)
 	enableraw();
 	/* Clear screen at start */
 	refreshscrn(globl_status);
+	/* Welcome! */
+	pmid(globl_status, "Hi!");
 	/* And move cursor to top */
 	cursorpos(globl_status, 1, 1);
 	write(STDOUT_FILENO, globl_status->abuf, strlen(globl_status->abuf));
 	str_trunc(globl_status->abuf, 0);
+
 	/* Finally, start keypress proccessor */
 	while(!prockeypress(globl_status));
 	/* Exit: */
