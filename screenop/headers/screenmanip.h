@@ -1,7 +1,7 @@
 #ifndef INCLUDE_INCLUDE
 #include "../../include.h"
 #endif
-#ifndef INCLUDE_IBUF
+#ifndef INCLUDE_STROP
 #include "../../dynstr/headers/strop.h"
 #endif
 #define INCLUDE_SCREENINFO
