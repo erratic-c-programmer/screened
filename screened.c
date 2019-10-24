@@ -76,7 +76,7 @@ int prockeypress(editor_status *estat)
 
 void init_editor(void)
 {
-	editor_status *globl_status = malloc(sizeof(globl_status));
+	editor_status *globl_status = calloc(1, sizeof(globl_status));
 	globl_status->output = false;
 	globl_status->winrows = getwinsz().ws_row;
 	globl_status->wincols = getwinsz().ws_col;
@@ -96,7 +96,10 @@ void init_editor(void)
 
 	/* Finally, start keypress proccessor */
 	while(!prockeypress(globl_status));
-	/* Exit: */
+	/* Exit code has to be placed here, or estat wil be undefined */
+	cursorpos(globl_status, 0, 0);
+	clearscrn(globl_status);
+	write(STDOUT_FILENO, globl_status->abuf, strlen(globl_status->abuf));
 	str_del(globl_status->abuf);
 	free(globl_status);
 	disableraw();
