@@ -97,7 +97,6 @@ void init_editor(void)
 	/* Finally, start keypress proccessor */
 	while(!prockeypress(globl_status));
 	/* Exit code has to be placed here, or estat wil be undefined */
-	cursorpos(globl_status, 0, 0);
 	clearscrn(globl_status);
 	write(STDOUT_FILENO, globl_status->abuf, strlen(globl_status->abuf));
 	str_del(globl_status->abuf);
