@@ -1,4 +1,4 @@
-CC=gcc -O2 -g -o $@
+CC= clang -Wno-unused-command-line-argument -s -O3 -Wpedantic -g -o $@ # Clang has much clearer error messages, so we use it here for debugging
 LD=$(CC)
 OCC=$(CC) -c
 AR=ar rcs $@
@@ -13,23 +13,23 @@ screened.o : screened.c
 	$(OCC) $<
 
 # Create screen operations static library
-lib/screenop.a : screenop/objects/screenmanip.o screenop/objects/screendraw.o screenop/objects/screeninfo.o
+lib/screenop.a : screenop/objects/screenmanip.o screenop/objects/screeninfo.o
 	$(AR) $^
 
 screenop/objects/screenmanip.o : screenop/screenmanip.c
 	$(OCC) $< 
 
-screenop/objects/screendraw.o : screenop/screendraw.c 
-	$(OCC) $<
-
 screenop/objects/screeninfo.o : screenop/screeninfo.c
 	$(OCC) $<
 
 # Create I/O manipulation static library
-lib/iomanip.a : iomanip/objects/input.o
+lib/iomanip.a : iomanip/objects/input.o iomanip/objects/output.o
 	$(AR) $^
 
 iomanip/objects/input.o : iomanip/input.c
+	$(OCC) $<
+
+iomanip/objects/output.o : iomanip/output.c
 	$(OCC) $<
 
 # Create dynamic string static library

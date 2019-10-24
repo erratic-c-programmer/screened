@@ -26,6 +26,7 @@ void tildes(editor_status *estat, short unsigned int startrow)
 	}
 }
 
+/* These three are defined for convenience */
 void ptop(editor_status *estat, const char *s)
 {
 	cursorpos(estat, 1, 1);
@@ -44,4 +45,8 @@ void pbot(editor_status *estat, const char *s)
 	str_append(estat->abuf, s);
 }
 
-void pline(
+void pline(editor_status *estat, int ln, const char *s)
+{
+	cursorpos(estat, 1, ln);
+	str_append(estat->abuf, s);
+}
