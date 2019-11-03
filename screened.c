@@ -9,6 +9,7 @@
 struct termios orig_termios; 
 void insert_mode(editor_status *estat);
 int prockeypress(editor_status *estat);
+void disp(editor_status *estat, int fd, unsigned long long int ln);
 void init_editor(void);
 
 int main(void)
@@ -16,9 +17,6 @@ int main(void)
 	init_editor();
 	return 0;
 }
-
-
-/* program-specific functions */
 
 void insert_mode(editor_status *estat)
 {

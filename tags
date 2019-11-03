@@ -7,7 +7,7 @@
 !_TAG_PROGRAM_VERSION	0.0.0	/3fdf28bc/
 AR	Makefile	/^AR=ar rcs $@$/;"	m
 Append buffer	README.md	/^##### Append buffer$/;"	T
-CC	Makefile	/^CC= clang -O3 -Wpedantic -g -o $@ # Clang has much clearer error messages, so we use it here for/;"	m
+CC	Makefile	/^CC=clang -Wno-unused-command-line-argument -O3 -Wpedantic -g -o $@ # Clang has much clearer erro/;"	m
 CTRL_KEY	include.h	/^#define CTRL_KEY(/;"	d
 CTRL_KEY	screened.c	/^#define CTRL_KEY(/;"	d	file:
 Compiling	README.md	/^## Compiling$/;"	s
@@ -42,6 +42,7 @@ curscol	include.h	/^	short unsigned int curscol;$/;"	m	struct:__anon06a0bc1f0208
 cursorpos	screenop/screenmanip.c	/^void cursorpos(editor_status *estat, short unsigned int cursrow, short unsigned int curscol)$/;"	f	typeref:typename:void
 cursrow	include.h	/^	short unsigned int cursrow;$/;"	m	struct:__anon06a0bc1f0208	typeref:typename:short unsigned int
 disableraw	screenop/screenmanip.c	/^void disableraw(void)$/;"	f	typeref:typename:void
+disp	screened.c	/^void disp(editor_status *estat, int fd, unsigned long long int ln)$/;"	f	typeref:typename:void
 dynstr/objects/strop.o	Makefile	/^dynstr\/objects\/strop.o : dynstr\/strop.c$/;"	t
 editor_status	include.h	/^} editor_status;$/;"	t	typeref:struct:__anon06a0bc1f0208
 enableraw	screenop/screenmanip.c	/^void enableraw(void)$/;"	f	typeref:typename:void

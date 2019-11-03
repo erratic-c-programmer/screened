@@ -1,4 +1,4 @@
-CC= clang -Wno-unused-command-line-argument -s -O3 -Wpedantic -g -o $@ # Clang has much clearer error messages, so we use it here for debugging
+CC=clang -Wno-unused-command-line-argument -O3 -Wall -Wpedantic -g -o $@ # Clang has much clearer error messages, so we use it here for debugging
 LD=$(CC)
 OCC=$(CC) -c
 AR=ar rcs $@
