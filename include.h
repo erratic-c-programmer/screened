@@ -13,7 +13,17 @@
 #include <unistd.h>
 
 #define CTRL_KEY(k) ((k) & 0x1f)
-struct termios orig_termios;
+struct termios orig_termios; /* I'm not sure why this is here */
+/* Hey, that rhymes!
+ * I'm not sure *snap*
+ * why this is here *clap*... */
+
+typedef struct {
+	char filename[260]; /* Maximum is 255 bytes on Linux for ext4 */
+	int fd;
+	int crow;
+	int ccol;
+} File;
 
 typedef struct {
 	bool output;
@@ -21,9 +31,8 @@ typedef struct {
 	short unsigned int wincols;
 	short unsigned int cursrow;
 	short unsigned int curscol;
-	char *abuf;
-	int fillrow; /* How may lines are there? */
+	char *abuf; /* The append buffer */
+	char *filebuf; /* Append buffer for files */
 	char mode; /* 1 for normal, 2 for insert */
-	FILE *curfile;
+	File curfile;
 } editor_status;
-

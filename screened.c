@@ -1,8 +1,9 @@
 #include "include.h"
 #include "dynstr/headers/strop.h"
+#include "iomanip/headers/file.h"
 #include "iomanip/headers/input.h"
-#include "screenop/headers/screenmanip.h"
 #include "iomanip/headers/output.h"
+#include "screenop/headers/screenmanip.h"
 #include "screenop/headers/screeninfo.h"
 
 #define CTRL_KEY(k) ((k) & 0x1f)
@@ -74,17 +75,20 @@ int prockeypress(editor_status *estat)
 
 void init_editor(void)
 {
-	editor_status *globl_status = calloc(1, sizeof(globl_status));
+	/* Initialise editor status and all its properties */
+	editor_status *globl_status = calloc(1, sizeof(editor_status));
 	globl_status->output = false;
 	globl_status->winrows = getwinsz().ws_row;
 	globl_status->wincols = getwinsz().ws_col;
 	globl_status->cursrow = 1;
 	globl_status->curscol = 1;
 	globl_status->abuf = str_create();
+	globl_status->filebuf = str_create();
 
 	enableraw();
 	/* Clear screen at start */
 	refreshscrn(globl_status);
+	File hi = openfile("imnew");
 	/* Welcome! */
 	pmid(globl_status, "Hi!");
 	/* And move cursor to top */
@@ -94,10 +98,12 @@ void init_editor(void)
 
 	/* Finally, start keypress proccessor */
 	while(!prockeypress(globl_status));
+
 	/* Exit code has to be placed here, or estat wil be undefined */
 	clearscrn(globl_status);
 	write(STDOUT_FILENO, globl_status->abuf, strlen(globl_status->abuf));
 	str_del(globl_status->abuf);
 	free(globl_status);
+	close(hi.fd);
 	disableraw();
 }

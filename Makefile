@@ -1,11 +1,13 @@
-CC=clang -Wno-unused-command-line-argument -O3 -Wall -Wpedantic -g -o $@ # Clang has much clearer error messages, so we use it here for debugging
+CFLAGS=-Wno-unused-command-line-argument -O3 -Wmost -Wpedantic -g -o $@ # Clang has much clearer error messages, so we use it here for debugging
+# When the 100% feature-adding and debuggin stage is over(hopefully it will be), compiler will be changed to gcc
+CC=clang $(CFLAGS)
 LD=$(CC)
 OCC=$(CC) -c
 AR=ar rcs $@
 
 .PHONY : screened check
 
-screened : screened.o lib/screenop.a lib/iomanip.a lib/dynstr.a
+screened : screened.o lib/screenop.a lib/iomanip.a lib/dynstr.a lib/iomanip.a
 	$(LD) $^ 
 	echo Done!
 
@@ -23,13 +25,16 @@ screenop/objects/screeninfo.o : screenop/screeninfo.c
 	$(OCC) $<
 
 # Create I/O manipulation static library
-lib/iomanip.a : iomanip/objects/input.o iomanip/objects/output.o
+lib/iomanip.a : iomanip/objects/input.o iomanip/objects/output.o iomanip/objects/file.o
 	$(AR) $^
 
 iomanip/objects/input.o : iomanip/input.c
 	$(OCC) $<
 
 iomanip/objects/output.o : iomanip/output.c
+	$(OCC) $<
+
+iomanip/objects/file.o : iomanip/file.c
 	$(OCC) $<
 
 # Create dynamic string static library
