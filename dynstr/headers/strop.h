@@ -3,8 +3,8 @@
 #endif
 #define INCLUDE_STROP
 
-char *str_create(void);
-void str_del(char *str);
-void str_append(char *str, const char *s);
-void str_trunc(char *str, size_t nsz);
-void str_flush(char *str);
+string *str_create(void);
+void str_del(string *str);
+void str_append(string *str, const char *s, size_t bufsz);
+void str_trunc(string *str, size_t nsz);
+void str_flush(string *str);

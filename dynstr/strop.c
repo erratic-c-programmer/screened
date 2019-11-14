@@ -5,38 +5,39 @@
 /* This is entirely a wrapper library! But it is here to present a uniform
  * interface to dynamic strings, so the programmer does not keep on seeing
  * mallocs and such, and can tell that the operation involves a dynamic string
+ *
+ * Safety checks currently nonexistant
  */
-static inline void malloc_failed()
-{
-	write(STDERR_FILENO, "Error! Memory could not be allocated\n", 37);
-	abort();
-}
 
-char *str_create(void)
+string *str_create(void)
 {
-	/* Allocate memory for the char struct */
-	char *new;
-	if ((new = calloc(1, sizeof(char))) == NULL)
-		malloc_failed();
+	string *new = calloc(1, sizeof(string));
+	new->str = calloc(1, sizeof(char));
+	new->len = 0;
 	return new;
 }
 
-void str_del(char *str)
+void str_del(string *str)
 {
-	free(str);
+	free(str->str);
+	str->len = -1;
 }
 
-void str_append(char *str, const char *s)
+void str_append(string *str, const char *s, size_t bufsz)
 {
-	strcat(str, s);
+	char *tmp = realloc(str->str, bufsz + str->len);
+	str->str = tmp;
+	str->len += bufsz;
+	strlcat(str->str, s, str->len);
 }
 
-void str_trunc(char *str, size_t nsz)
+void str_trunc(string *str, size_t nsz)
 {
-	str[nsz] = '\0'; /*This it a bit hacky, but it works */
+	str->str[nsz] = '\0'; /*This it a bit hacky, but it works */
+	str->len = nsz;
 }
 
-void str_flush(char *str)
+void str_flush(string *str)
 {
 	str_trunc(str, 0);
 }
