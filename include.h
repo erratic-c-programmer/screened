@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <errno.h>
 #include <string.h>
+#include <bsd/string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>
@@ -12,11 +13,18 @@
 #include <termios.h>
 #include <unistd.h>
 
+/* Feature check macros */
+
 #define CTRL_KEY(k) ((k) & 0x1f)
 struct termios orig_termios; /* I'm not sure why this is here */
 /* Hey, that rhymes!
  * I'm not sure *snap*
  * why this is here *clap*... */
+
+typedef struct {
+	char *str;
+	size_t len;
+} string; /* primitive */
 
 typedef struct {
 	char filename[260]; /* Maximum is 255 bytes on Linux for ext4 */
@@ -31,8 +39,7 @@ typedef struct {
 	short unsigned int wincols;
 	short unsigned int cursrow;
 	short unsigned int curscol;
-	char *abuf; /* The append buffer */
-	char *filebuf; /* Append buffer for files */
-	char mode; /* 1 for normal, 2 for insert */
+	string *abuf; /* The append buffer */
+	string *filebuf; /* Append buffer for files */
 	File curfile;
 } editor_status;

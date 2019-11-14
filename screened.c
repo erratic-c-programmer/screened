@@ -66,7 +66,7 @@ int prockeypress(editor_status *estat)
 	if (estat->output) {
 		cursorpos(estat, estat->cursrow, estat->curscol);
 		write(STDOUT_FILENO, "\x1b[?25h", 6); /* Make cursor invisible */
-		write(STDOUT_FILENO, estat->abuf, strlen(estat->abuf));
+		write(STDOUT_FILENO, estat->abuf->str, estat->abuf->len);
 		write(STDOUT_FILENO, "\x1b[?25h", 6); /* Make cursor visible again */
 		str_trunc(estat->abuf, 0);
 	}
@@ -88,12 +88,11 @@ void init_editor(void)
 	enableraw();
 	/* Clear screen at start */
 	refreshscrn(globl_status);
-	File hi = openfile("imnew");
 	/* Welcome! */
 	pmid(globl_status, "Hi!");
 	/* And move cursor to top */
 	cursorpos(globl_status, 1, 1);
-	write(STDOUT_FILENO, globl_status->abuf, strlen(globl_status->abuf));
+	write(STDOUT_FILENO, globl_status->abuf->str, globl_status->abuf->len);
 	str_trunc(globl_status->abuf, 0);
 
 	/* Finally, start keypress proccessor */
@@ -101,9 +100,9 @@ void init_editor(void)
 
 	/* Exit code has to be placed here, or estat wil be undefined */
 	clearscrn(globl_status);
-	write(STDOUT_FILENO, globl_status->abuf, strlen(globl_status->abuf));
+	write(STDOUT_FILENO, globl_status->abuf->str, globl_status->abuf->len);
 	str_del(globl_status->abuf);
+	str_del(globl_status->filebuf);
 	free(globl_status);
-	close(hi.fd);
 	disableraw();
 }

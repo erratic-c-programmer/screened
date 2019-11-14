@@ -1,7 +1,7 @@
 CFLAGS=-Wno-unused-command-line-argument -O3 -Wmost -Wpedantic -g -o $@ # Clang has much clearer error messages, so we use it here for debugging
 # When the 100% feature-adding and debuggin stage is over(hopefully it will be), compiler will be changed to gcc
 CC=clang $(CFLAGS)
-LD=$(CC)
+LD=$(CC) -lbsd
 OCC=$(CC) -c
 AR=ar rcs $@
 

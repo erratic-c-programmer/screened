@@ -21,7 +21,7 @@ void cursorpos(editor_status *estat, short unsigned int cursrow, short unsigned 
 	char buf[32];
 
 	/* Check for overflow/underflow
-	This is not supposed to modify the estat 
+	 * This is not supposed to modify the estat 
 	 * struct except for the abuf, but for the 
 	 * really obviously wrong positions...
 	 */
@@ -36,5 +36,5 @@ void cursorpos(editor_status *estat, short unsigned int cursrow, short unsigned 
 		estat->curscol = curscol = 1;
 
 	snprintf(buf, sizeof(buf), "\x1b[%d;%dH", cursrow, curscol);
-	str_append(estat->abuf, buf);
+	str_append(estat->abuf, buf, strlen(buf) + 1);
 }
