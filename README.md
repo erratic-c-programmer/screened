@@ -1,3 +1,9 @@
+# This repo is here for fun
+
+
+
+
+
 # FOR DEVELOPERS:
 #### Terminology
 ##### Append buffer
