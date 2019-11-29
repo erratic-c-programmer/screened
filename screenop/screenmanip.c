@@ -36,5 +36,5 @@ void cursorpos(editor_status *estat, short unsigned int cursrow, short unsigned 
 		estat->curscol = curscol = 1;
 
 	snprintf(buf, sizeof(buf), "\x1b[%d;%dH", cursrow, curscol);
-	str_append(estat->abuf, buf, strlen(buf) + 1);
+	str_append(estat->abuf, buf, strlen(buf));
 }
