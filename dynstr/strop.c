@@ -6,7 +6,7 @@
  * interface to dynamic strings, so the programmer does not keep on seeing
  * mallocs and such, and can tell that the operation involves a dynamic string
  *
- * Safety checks currently nonexistant
+ * Safety checks currently nonexistent
  */
 
 string *str_create(void)
@@ -39,5 +39,5 @@ void str_trunc(string *str, size_t nsz)
 
 void str_flush(string *str)
 {
-	str_trunc(str, 0);
+	str_trunc(str, 0); /* lol why */
 }

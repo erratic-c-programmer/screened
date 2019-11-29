@@ -7,7 +7,6 @@
 #include "screenop/headers/screeninfo.h"
 
 #define CTRL_KEY(k) ((k) & 0x1f)
-struct termios orig_termios; 
 void insert_mode(editor_status *estat);
 int prockeypress(editor_status *estat);
 void disp(editor_status *estat, int fd, unsigned long long int ln);
@@ -56,6 +55,11 @@ int prockeypress(editor_status *estat)
 			estat->output = true;
 			break;
 
+		case 'G':
+			estat->cursrow = (unsigned short) INFINITY;
+			estat->output = true;
+			break;
+
 		default:
 			estat->output = false;
 			break;
@@ -68,7 +72,7 @@ int prockeypress(editor_status *estat)
 		write(STDOUT_FILENO, "\x1b[?25h", 6); /* Make cursor invisible */
 		write(STDOUT_FILENO, estat->abuf->str, estat->abuf->len);
 		write(STDOUT_FILENO, "\x1b[?25h", 6); /* Make cursor visible again */
-		str_trunc(estat->abuf, 0);
+		str_flush(estat->abuf);
 	}
 	return 0;
 }
@@ -91,9 +95,9 @@ void init_editor(void)
 	/* Welcome! */
 	pmid(globl_status, "Hi!");
 	/* And move cursor to top */
-	cursorpos(globl_status, 1, 1);
+	cursorpos(globl_status, 0, 0);
 	write(STDOUT_FILENO, globl_status->abuf->str, globl_status->abuf->len);
-	str_trunc(globl_status->abuf, 0);
+	str_flush(globl_status->abuf);
 
 	/* Finally, start keypress proccessor */
 	while(!prockeypress(globl_status));
@@ -104,5 +108,4 @@ void init_editor(void)
 	str_del(globl_status->abuf);
 	str_del(globl_status->filebuf);
 	free(globl_status);
-	disableraw();
 }
