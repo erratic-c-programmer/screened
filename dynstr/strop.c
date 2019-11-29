@@ -2,12 +2,7 @@
 #include "headers/strop.h"
 #endif
 
-/* This is entirely a wrapper library! But it is here to present a uniform
- * interface to dynamic strings, so the programmer does not keep on seeing
- * mallocs and such, and can tell that the operation involves a dynamic string
- *
- * Safety checks currently nonexistant
- */
+/* TODO: malloc safety checks */
 
 string *str_create(void)
 {
@@ -21,6 +16,7 @@ void str_del(string *str)
 {
 	free(str->str);
 	str->len = -1;
+	free(str);
 }
 
 void str_append(string *str, const char *s, size_t bufsz)
@@ -39,5 +35,5 @@ void str_trunc(string *str, size_t nsz)
 
 void str_flush(string *str)
 {
-	str_trunc(str, 0);
+	str_trunc(str, 0); /* lol why */
 }

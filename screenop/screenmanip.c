@@ -2,8 +2,8 @@
 
 void enableraw(void)
 {
-	tcgetattr(STDIN_FILENO, &orig_termios);
-	struct termios raw = orig_termios;
+	struct termios raw;
+	tcgetattr(STDIN_FILENO, &raw);
 	raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
 	raw.c_oflag &= ~(OPOST);
 	raw.c_cflag |= (CS8);
@@ -11,9 +11,9 @@ void enableraw(void)
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
 
-void disableraw(void)
+void restore_termios(void)
 {
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
+	
 }
 
 void cursorpos(editor_status *estat, short unsigned int cursrow, short unsigned int curscol)

@@ -12,11 +12,12 @@
 #include <fcntl.h>
 #include <termios.h>
 #include <unistd.h>
+#include <math.h>
 
 /* Feature check macros */
 
 #define CTRL_KEY(k) ((k) & 0x1f)
-struct termios orig_termios; /* I'm not sure why this is here */
+ /* I'm not sure why this is here */
 /* Hey, that rhymes!
  * I'm not sure *snap*
  * why this is here *clap*... */
