@@ -2,7 +2,7 @@
 
 File openfile(char *filename)
 {
-	int fd = open(filename, O_RDWR|O_CREAT);
+	int fd = open(filename, O_RDWR);
 	File r_result;
 	strcpy(r_result.filename, filename);
 	r_result.fd = fd;
