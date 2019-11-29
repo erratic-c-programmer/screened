@@ -27,7 +27,7 @@ int prockeypress(editor_status *estat)
 {
 	char c = getkeypress();
 	switch (c) {
-		case CTRL_KEY('c'):
+		case 'q':
 			estat->output = false;
 			return(1);
 			break;

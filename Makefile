@@ -1,10 +1,3 @@
-DEBUG=1
-ifeq ($(DEBUG), 0)
-	STRIP=strip --strip-debug $@
-else
-	STRIP=true
-endif
-
 CFLAGS=-Wno-unused-command-line-argument -O3 -Wall -Wpedantic -g -o $@
 LDFLAGS= -lc -lbsd -e main -dynamic-linker /lib64/ld-linux-x86-64.so.2 -g -o $@
 # tcc can rebuild the entire thing extremely quickly!
@@ -13,6 +6,14 @@ CC=gcc $(CFLAGS)
 LD=ld $(LDFLAGS)
 OCC=$(CC) -c
 AR=ar rcs $@
+
+DEBUG=1
+ifeq ($(DEBUG), 0)
+	STRIP=strip --strip-debug $@
+else
+	STRIP=true
+endif
+
 
 .PHONY : screened check
 
@@ -64,10 +65,12 @@ check : FORCE
 	mkdir dynstr/objects/ >& /dev/null || true
 
 clean : /dev/null
-	rm */objects/*
-	rm lib/*
-	rm screened.o
-	
+	rm -f */objects/*
+	rm -f lib/*
+	rm -f screened.o
+	rm -f vgcore*
+	rm -f core*
+
 normal : /dev/null
 	stty cooked
 FORCE :
