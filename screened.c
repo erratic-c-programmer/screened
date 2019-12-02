@@ -15,7 +15,13 @@ void init_editor(void);
 int main(void)
 {
 	init_editor();
-	return 0;
+	exit(0);
+	/* Help, I'm resorting to cheating with exit(0) instead of
+	 * exiting properly, as that causes a segfault... Maybe I'm
+	 * overwriting some of main()'s stack? That appears to be
+	 * the problem, but I can't fix it, so exit(0) works just
+	 * fine
+	 */
 }
 
 void insert_mode(editor_status *estat)
@@ -88,21 +94,18 @@ void init_editor(void)
 	globl_status->curscol = 1;
 	globl_status->abuf = str_create();
 	globl_status->filebuf = str_create();
-
-	enableraw();
-	/* Clear screen at start */
-	refreshscrn(globl_status);
-	/* Welcome! */
+	struct termios orig = enableraw(); /* enter raw mode */
+	refreshscrn(globl_status); /* clear screen at start */
 	pmid(globl_status, "Hi!");
-	/* And move cursor to top */
-	cursorpos(globl_status, 0, 0);
+	cursorpos(globl_status, 0, 0); /* move cursor to top */
 	write(STDOUT_FILENO, globl_status->abuf->str, globl_status->abuf->len);
 	str_flush(globl_status->abuf);
 
 	/* Finally, start keypress proccessor */
 	while(!prockeypress(globl_status));
 
-	/* Exit code has to be placed here, or estat wil be undefined */
+	/* XXX Exit code has to be placed here, or estat wil be undefined */
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig); /* exit raw mode */
 	clearscrn(globl_status);
 	write(STDOUT_FILENO, globl_status->abuf->str, globl_status->abuf->len);
 	str_del(globl_status->abuf);
