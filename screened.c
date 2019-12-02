@@ -15,13 +15,7 @@ void init_editor(void);
 int main(void)
 {
 	init_editor();
-	exit(0);
-	/* Help, I'm resorting to cheating with exit(0) instead of
-	 * exiting properly, as that causes a segfault... Maybe I'm
-	 * overwriting some of main()'s stack? That appears to be
-	 * the problem, but I can't fix it, so exit(0) works just
-	 * fine
-	 */
+	return 0;
 }
 
 void insert_mode(editor_status *estat)

@@ -1,15 +1,15 @@
-CFLAGS=-Wno-unused-command-line-argument -O3 -Wall -Wpedantic -g -o $@
-LDFLAGS= -lc -lbsd -e main -dynamic-linker /lib64/ld-linux-x86-64.so.2 -g -o $@
+CFLAGS=-Wno-unused-command-line-argument -O0 -Wall -Wpedantic -g -o $@
+LDFLAGS=-lbsd -g -o $@
 # tcc can rebuild the entire thing extremely quickly!
 # with 4 threads... 0.086s
 CC=gcc $(CFLAGS)
-LD=ld $(LDFLAGS)
+LD=gcc $(LDFLAGS)
 OCC=$(CC) -c
 AR=ar rcs $@
 
 DEBUG=1
 ifeq ($(DEBUG), 0)
-	STRIP=strip --strip-debug $@
+	STRIP=strip --strip-debug
 else
 	STRIP=true
 endif
@@ -19,7 +19,7 @@ endif
 
 screened : screened.o lib/screenop.a lib/iomanip.a lib/dynstr.a
 	$(LD) $^ 
-	$(STRIP)
+	$(STRIP) $@
 	echo Done!
 
 screened.o : screened.c
@@ -28,7 +28,7 @@ screened.o : screened.c
 # Create screen operations static library
 lib/screenop.a : screenop/objects/screenmanip.o screenop/objects/screeninfo.o
 	$(AR) $^
-	$(STRIP)
+	$(STRIP) $@
 
 screenop/objects/screenmanip.o : screenop/screenmanip.c
 	$(OCC) $< 
@@ -39,7 +39,7 @@ screenop/objects/screeninfo.o : screenop/screeninfo.c
 # Create I/O manipulation static library
 lib/iomanip.a : iomanip/objects/input.o iomanip/objects/output.o iomanip/objects/file.o
 	$(AR) $^
-	$(STRIP)
+	$(STRIP) $@
 
 iomanip/objects/input.o : iomanip/input.c
 	$(OCC) $<
@@ -53,7 +53,7 @@ iomanip/objects/file.o : iomanip/file.c
 # Create dynamic string static library
 lib/dynstr.a : dynstr/objects/strop.o
 	$(AR) $^
-	$(STRIP)
+	$(STRIP) $@
 
 dynstr/objects/strop.o : dynstr/strop.c
 	$(OCC) $<
