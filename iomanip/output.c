@@ -3,7 +3,12 @@ void refreshscrn(editor_status *estat)
 {
 	str_append(estat->abuf, "\x1b[2J", 4);
 	clearscrn(estat);
-	tildes(estat, 1);
+	cursorpos(estat, 1, 1);
+	for (int i = 0; i < estat->winrows; ++i) {
+		str_append(estat->abuf, "~", 1);
+		if (i < estat->winrows - 1)
+			str_append(estat->abuf, "\r\n", 2);
+	}
 }
 
 void clearscrn(editor_status *estat)
@@ -14,16 +19,6 @@ void clearscrn(editor_status *estat)
 		str_append(estat->abuf, "\x1b[1B", 4);
 	}
 	str_append(estat->abuf, "\x1b[2K", 4);
-}
-	
-void tildes(editor_status *estat, short unsigned int startrow)
-{
-	cursorpos(estat, 1, 1);
-	for (int i = startrow - 1; i < estat->winrows; ++i) {
-		str_append(estat->abuf, "~", 1);
-		if (i < estat->winrows - 1)
-			str_append(estat->abuf, "\r\n", 2);
-	}
 }
 
 /* These three are defined for convenience */

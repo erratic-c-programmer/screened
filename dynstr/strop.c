@@ -14,10 +14,8 @@ string *str_create(void)
 
 void str_del(string *str)
 {
-	if (*str) {
-		free(str->str);
-		free(str);
-	}
+	free(str->str);
+	free(str);
 }
 
 void str_append(string *str, const char *s, size_t bufsz)
